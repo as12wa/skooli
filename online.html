@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>سكولي - الدروس الأونلاين</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9fc;
+      color: #333;
+    }
+
+    header {
+      background-color: #2a71d0;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 30px;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 15px 0 0;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    nav ul li a:hover,
+    nav ul li a.active {
+      background-color: #ffc107;
+      color: #222;
+    }
+
+    .online-lessons {
+      padding: 40px 20px;
+      max-width: 800px;
+      margin: auto;
+      text-align: right;
+    }
+
+    .online-lessons h3 {
+      color: #2a71d0;
+      font-size: 26px;
+      margin-bottom: 20px;
+    }
+
+    .online-lessons ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .online-lessons li {
+      background-color: #fff;
+      margin-bottom: 15px;
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .online-lessons button {
+      background-color: #2a71d0;
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .online-lessons button:hover {
+      background-color: #1e5eb8;
+    }
+
+    footer {
+      background-color: #f1f1f1;
+      text-align: center;
+      padding: 15px;
+      font-size: 14px;
+      color: #666;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 600px) {
+      .online-lessons li {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .online-lessons button {
+        margin-top: 10px;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>سكولي</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">الرئيسية</a></li>
+        <li><a href="online.html" class="active">الدروس الأونلاين</a></li>
+        <li><a href="booking.html">الحجز الحضوري</a></li>
+        <li><a href="teacher.html">المعلم</a></li>
+        <li><a href="dashboard.html">لوحة التحكم</a></li>
+        <li><a href="login.html">دخول / تسجيل</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="online-lessons">
+    <h3>الدروس الأونلاين المتاحة</h3>
+    <ul>
+      <li>
+        <span>اللغة العربية - الصف الثالث الثانوي - أ/ أحمد شعبان</span>
+        <button onclick="joinLesson('اللغة العربية - الصف الثالث الثانوي - أ/ أحمد شعبان')">الانضمام</button>
+      </li>
+      <li>
+        <span>الرياضيات - الصف الثاني الإعدادي - أ/ منى فتحي</span>
+        <button onclick="joinLesson('الرياضيات - الصف الثاني الإعدادي - أ/ منى فتحي')">الانضمام</button>
+      </li>
+      <li>
+        <span>الفيزياء - الصف الثالث الثانوي - أ/ كريم مصطفى</span>
+        <button onclick="joinLesson('الفيزياء - الصف الثالث الثانوي - أ/ كريم مصطفى')">الانضمام</button>
+      </li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>© 2025 سكولي. جميع الحقوق محفوظة.</p>
+  </footer>
+
+  <script>
+    function joinLesson(lessonName) {
+      alert("✅ تم الانضمام إلى: " + lessonName);
+    }
+  </script>
+</body>
+</html>

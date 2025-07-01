@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>إنشاء حساب - سكولي</title>
+  <style>
+    /* تنسيقات عامة */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f4ff;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    header {
+      width: 100%;
+      background-color: #2a71d0;
+      padding: 20px 30px;
+      color: white;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header h1 {
+      margin: 0 0 10px 0;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 2px;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+      display: inline-block;
+    }
+    nav ul li a:hover,
+    nav ul li a.active {
+      background-color: #ffc107;
+      color: #222;
+    }
+
+    section {
+      background-color: white;
+      max-width: 400px;
+      width: 90%;
+      margin: 50px auto 60px;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(42, 113, 208, 0.15);
+      text-align: center;
+    }
+    section h2 {
+      font-size: 28px;
+      color: #2a71d0;
+      margin-bottom: 25px;
+      font-weight: 700;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      text-align: right;
+    }
+    label {
+      font-weight: 600;
+      margin-bottom: 5px;
+      display: block;
+    }
+    input[type="email"],
+    input[type="password"] {
+      padding: 10px 15px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      border-color: #2a71d0;
+      outline: none;
+    }
+    button {
+      background-color: #2a71d0;
+      color: white;
+      font-size: 18px;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #1f4f9c;
+    }
+    #message {
+      margin-top: 15px;
+      font-weight: 600;
+      min-height: 22px;
+    }
+    p {
+      margin-top: 25px;
+      font-size: 15px;
+    }
+    p a {
+      color: #2a71d0;
+      font-weight: 600;
+      text-decoration: none;
+      transition: text-decoration 0.3s ease;
+    }
+    p a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      width: 100%;
+      background-color: #f1f1f1;
+      color: #666;
+      text-align: center;
+      padding: 15px 10px;
+      font-size: 14px;
+      user-select: none;
+      margin-top: auto;
+      box-shadow: inset 0 1px 0 #ccc;
+      position: relative;
+      bottom: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      section {
+        padding: 25px 20px;
+      }
+      header h1 {
+        font-size: 24px;
+      }
+      nav ul {
+        gap: 12px;
+        justify-content: center;
+      }
+    }
+  </style>
+
+  <!-- Firebase CDN -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+</head>
+<body>
+
+  <header>
+    <h1>سكولي</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">الرئيسية</a></li>
+        <li><a href="online.html">الدروس الأونلاين</a></li>
+        <li><a href="booking.html">الحجز الحضوري</a></li>
+        <li><a href="teacher.html">المعلم</a></li>
+        <li><a href="dashboard.html">لوحة التحكم</a></li>
+        <li><a href="login.html" class="active">دخول / تسجيل</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section>
+    <h2>إنشاء حساب جديد</h2>
+    <form id="signupForm" autocomplete="off">
+      <label for="email">البريد الإلكتروني:</label>
+      <input type="email" id="email" name="email" placeholder="أدخل بريدك الإلكتروني" required />
+
+      <label for="password">كلمة المرور:</label>
+      <input type="password" id="password" name="password" placeholder="أدخل كلمة المرور" required />
+
+      <button type="submit">سجّل الآن</button>
+    </form>
+
+    <div id="message"></div>
+
+    <p>
+      لديك حساب بالفعل؟ <a href="login.html">تسجيل الدخول</a>
+    </p>
+  </section>
+
+  <footer>
+    <p>© 2025 سكولي. جميع الحقوق محفوظة.</p>
+  </footer>
+
+  <script>
+    // إعداد Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyAZ91WNWDM5-4UZFD0Lz91FFJ_ozBGnT1M",
+      authDomain: "skooli-fc836.firebaseapp.com",
+      projectId: "skooli-fc836",
+      storageBucket: "skooli-fc836.appspot.com",
+      messagingSenderId: "737144697022",
+      appId: "1:737144697022:web:6ccd0feceda270b9282eef",
+      measurementId: "G-52NGZH4MR3"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    // تسجيل مستخدم جديد
+    const form = document.getElementById('signupForm');
+    const message = document.getElementById('message');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      message.textContent = '... جاري إنشاء الحساب';
+      message.style.color = '#2a71d0';
+
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          message.textContent = "تم إنشاء الحساب بنجاح ✔️";
+          message.style.color = "green";
+          setTimeout(() => {
+            window.location.href = "dashboard.html"; // توجيه بعد التسجيل
+          }, 1200);
+        })
+        .catch((error) => {
+          message.textContent = "فشل في إنشاء الحساب ❌: " + error.message;
+          message.style.color = "red";
+        });
+    });
+  </script>
+
+</body>
+</html>

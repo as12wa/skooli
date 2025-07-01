@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>سكولي - لوحة التحكم</title>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9faff;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: #2a71d0;
+      color: white;
+      padding: 20px 30px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header h1 {
+      margin: 0 0 10px 0;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 2px;
+      text-align: center; /* لتوسيط العنوان */
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center; /* لتوسيط الروابط */
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    nav ul li a:hover,
+    nav ul li a.active {
+      background-color: #ffc107;
+      color: #222;
+    }
+
+    section.dashboard {
+      background-color: white;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(42, 113, 208, 0.15);
+    }
+
+    section.dashboard h3 {
+      font-size: 30px;
+      color: #2a71d0;
+      margin-bottom: 15px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+
+    .actions button {
+      padding: 10px 20px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      background-color: #e8f0fe;
+      color: #2a71d0;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .actions button:hover {
+      background-color: #2a71d0;
+      color: white;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f0f4ff;
+      color: #2a71d0;
+    }
+
+    footer {
+      background-color: #f1f1f1;
+      color: #666;
+      text-align: center;
+      padding: 15px 10px;
+      font-size: 14px;
+      margin-top: auto;
+    }
+
+    @media (max-width: 600px) {
+      nav ul {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>سكولي</h1>
+  <nav>
+    <ul>
+      <li><a href="index.html">الرئيسية</a></li>
+      <li><a href="online.html">الدروس الأونلاين</a></li>
+      <li><a href="booking.html">الحجز الحضوري</a></li>
+      <li><a href="teacher.html">المعلم</a></li>
+      <li><a href="dashboard.html" class="active">لوحة التحكم</a></li>
+      <li><a href="login.html">دخول / تسجيل</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="dashboard">
+  <h3>لوحة التحكم</h3>
+
+  <div class="actions">
+    <button onclick="loadBookings()">عرض الدروس المحجوزة</button>
+    <button onclick="alert('قريبًا: إدارة الحساب')">إدارة معلومات الحساب</button>
+    <button onclick="alert('قريبًا: تحديث كلمة المرور')">تحديث كلمة المرور</button>
+    <button onclick="logout()">تسجيل الخروج</button>
+  </div>
+
+  <table id="bookings-table" style="display: none;">
+    <thead>
+      <tr>
+        <th>الاسم</th>
+        <th>البريد</th>
+        <th>الهاتف</th>
+        <th>المادة</th>
+        <th>الصف</th>
+        <th>التاريخ</th>
+        <th>الوقت</th>
+      </tr>
+    </thead>
+    <tbody id="bookings-table-body">
+      <!-- سيتم ملؤه بالبيانات -->
+    </tbody>
+  </table>
+</section>
+
+<footer>
+  <p>© 2025 سكولي. جميع الحقوق محفوظة.</p>
+</footer>
+
+<script>
+  // إعداد Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyAZ91WNWDM5-4UZFD0Lz91FFJ_ozBGnT1M",
+    authDomain: "skooli-fc836.firebaseapp.com",
+    projectId: "skooli-fc836",
+    storageBucket: "skooli-fc836.firebasestorage.app",
+    messagingSenderId: "737144697022",
+    appId: "1:737144697022:web:6ccd0feceda270b9282eef",
+    measurementId: "G-52NGZH4MR3"
+  };
+
+  const app = firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  function loadBookings() {
+    const table = document.getElementById("bookings-table");
+    const tbody = document.getElementById("bookings-table-body");
+    tbody.innerHTML = ""; // مسح البيانات القديمة
+
+    db.collection("bookings").get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        const row = `
+          <tr>
+            <td>${data.name || ""}</td>
+            <td>${data.email || ""}</td>
+            <td>${data.phone || ""}</td>
+            <td>${data.subject || ""}</td>
+            <td>${data.grade || ""}</td>
+            <td>${data.date || ""}</td>
+            <td>${data.time || ""}</td>
+          </tr>`;
+        tbody.innerHTML += row;
+      });
+      table.style.display = "table";
+    }).catch(error => {
+      alert("حدث خطأ أثناء تحميل البيانات");
+      console.error(error);
+    });
+  }
+
+  function logout() {
+    alert("تم تسجيل الخروج");
+    window.location.href = "login.html";
+  }
+</script>
+
+</body>
+</html>
